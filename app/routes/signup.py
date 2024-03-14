@@ -41,10 +41,11 @@ def sign(request: Request, username: str = Form(...), email: str = Form(...), ro
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
     
-    
+
     pw = pwd_cxt.hash(password)
     signup1=Signup(user=username, email=email,role=role,password=pw,confirmpassword=pw)
 
     signup.insert_one(dict(signup1))
     return html.TemplateResponse("SignupPage.html", {"request": request,"success_message": "User registered successfully"})
+"new"
 
