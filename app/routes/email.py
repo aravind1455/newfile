@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Form, Request,Depends,HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
@@ -24,10 +23,10 @@ pwd_cxt = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def email(request: Request):
     return html.TemplateResponse("ForgetPassword.html", {"request": request})
 
-
+ 
 @route.post("/changepassword")
 def change(request: Request, email: str = Form(...), password: str = Form(), confirm: str = Form(...)):
-    try:
+    try:                                                                                                   
         result = signup.find_one({"email": email})
 
         if result:
@@ -35,23 +34,20 @@ def change(request: Request, email: str = Form(...), password: str = Form(), con
             if password == confirm:
                 pw = pwd_cxt.hash(password)
                 # Update password for the given email
-                signup.update_one({"email": email}, {"$set": {"password": pw, "confirmpassword": confirm}})
+                signup.update_one({"email": email}, {"$set": {"password": pw, "confirmpassword": confirm}})                               
                 # Redirect to login page with success message
                 return html.TemplateResponse("Login.html", {"request": request, "message": "Password updated successfully"})
-        # Redirect to the emailget page with an error message
+        # Redirect to the emailget page with an error                                                                           message          
         return html.TemplateResponse("ForgetPassword.html", {"request": request, "message": "Invalid email"})
     except Exception as e:
-        # Handle other exceptions with a 500 status code
+        # Handle other exceptions with a 500 status code  
         return JSONResponse(content={"detail": str(e)}, status_code=500)
     
-
 
 @route.get("/changepassword1")
 def email(request: Request):
     return html.TemplateResponse("PasswordChange.html", {"request": request})
     
-
-
 @route.post("/changepassword1")
 def change(request: Request, email: str = Form(...), password: str = Form(...), confirm: str = Form(...), token: str = Depends(get_current_user)):
     try:
@@ -77,7 +73,6 @@ def change(request: Request, email: str = Form(...), password: str = Form(...), 
 
     except Exception as e:
         return JSONResponse(content={"message": "Internal server error", "error": str(e)}, status_code=500)
-
 
 
 

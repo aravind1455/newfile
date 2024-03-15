@@ -47,6 +47,3 @@ def sign(request: Request, username: str = Form(...), email: str = Form(...), ro
 
     signup.insert_one(dict(signup1))
     return html.TemplateResponse("SignupPage.html", {"request": request,"success_message": "User registered successfully"})
-
-"new"
-
