@@ -28,3 +28,6 @@ class DeviceData(BaseModel):
     First_Sensor_temperature: float
     Route_From: str
     Route_To: str
+
+class Data(BaseModel):
+    username:str
